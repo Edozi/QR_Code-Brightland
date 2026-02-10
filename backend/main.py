@@ -4,6 +4,16 @@ from database import SessionLocal
 
 app = FastAPI()
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://qr-scanner.vercel.app"
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.post("/verify")
 def verify_ticket(ticket_id: str, scanner_id: str):
     db = SessionLocal()

@@ -15,7 +15,7 @@ const scannerId = "gate-A";
 function onScanSuccess(text) {
   const ticketId = text.split("/").pop();
 
-  fetch("https://yourapi.com/verify", {
+  fetch("https://qr-code-brightland.onrender.com/verify", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({

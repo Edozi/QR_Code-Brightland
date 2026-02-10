@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from database import SessionLocal
 
@@ -8,7 +9,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://qr-scanner.vercel.app"
+        "https://qrcodebrightlandscan.vercel.app"
     ],
     allow_methods=["*"],
     allow_headers=["*"],

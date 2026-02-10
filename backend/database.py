@@ -2,9 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
 
-# DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL")
 # DATABASE_URL = os.getenv("postgresql://user:password@localhost:5432/concert_db")
-DATABASE_URL="postgresql://postgres:2d3e4r23#ERs2@db.hrgvqkjuipuwwyehzomz.supabase.co:5432/postgres"
+# DATABASE_URL="postgresql://postgres:2d3e4r23#ERs2@db.hrgvqkjuipuwwyehzomz.supabase.co:5432/postgres"
+
 
 
 if not DATABASE_URL:

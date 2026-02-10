@@ -27,16 +27,18 @@ function onScanSuccess(text) {
   .then(data => {
     if (data.status === "valid") {
       document.body.style.background = "green";
-      result.innerText = "VALID";
+      // result.innerText = "VALID";
+      result.innerText = `${data.status}`;
     } else {
       document.body.style.background = "red";
-      result.innerText = "USED";
+      // result.innerText = "USED";
+      result.innerText = `${data.status}`;
     }
   });
 }
 
 new Html5Qrcode("reader")
-  .start({ facingMode: "environment" }, { fps: 10, qrbox: 350 }, onScanSuccess);
+  .start({ facingMode: "environment" }, { fps: 10, qrbox: 450 }, onScanSuccess);
 </script>
 </body>
 </html>

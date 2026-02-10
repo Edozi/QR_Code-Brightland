@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ticket Scanner</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+<h1>Scan Ticket</h1>
+<div id="reader"></div>
+<h2 id="result"></h2>
+
+<script>
+const scannerId = "gate-A";
+
+function onScanSuccess(text) {
+  const ticketId = text.split("/").pop();
+
+  fetch("https://yourapi.com/verify", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      ticket_id: ticketId,
+      scanner_id: scannerId
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "valid") {
+      document.body.style.background = "green";
+      result.innerText = "VALID";
+    } else {
+      document.body.style.background = "red";
+      result.innerText = "USED";
+    }
+  });
+}
+
+new Html5Qrcode("reader")
+  .start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanSuccess);
+</script>
+</body>
+</html>

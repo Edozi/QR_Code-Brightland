@@ -35,8 +35,20 @@ const scannerId = "gate-A";
 //   });
 // }
 
+let lastScannedId = null;
+let lastScanTime = 0;
+
 function onScanSuccess(text) {
   const ticketId = text.split("/").pop();
+
+  const cooldown = 3000;
+
+  if (lastScannedId === ticketId && Date.now() - lastScanTime < cooldown) {
+    return;
+  }
+
+  lastScannedId = ticketId;
+  lastScanTime = Date.now();
 
   fetch("https://qr-code-brightland.onrender.com/verify", {
     method: "POST",
@@ -50,12 +62,12 @@ function onScanSuccess(text) {
   .then(data => {
     if (data.status === "valid") {
       document.body.style.background = "green";
-      // result.innerText = "VALID";
-      result.innerText = `${data.status}`;
+      result.innerText = "VALID";
+      // result.innerText = `${data.status}`;
     } else {
       document.body.style.background = "red";
-      // result.innerText = "USED";
-      result.innerText = `${data.status}`;
+      result.innerText = "USED";
+      // result.innerText = `${data.status}`;
     }
   });
 }

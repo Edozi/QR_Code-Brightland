@@ -12,6 +12,29 @@
 <script>
 const scannerId = "gate-A";
 
+// function load() {
+//   fetch("https://qr-code-brightland.onrender.com/verify", {
+//     method: "POST",
+//     headers: {"Content-Type": "application/json"},
+//     body: JSON.stringify({
+//       ticket_id: ticketId,
+//       scanner_id: scannerId
+//     })
+//   })
+//   .then(res => res.json())
+//   .then(data => {
+//     if (data.status === "valid") {
+//       document.body.style.background = "green";
+//       // result.innerText = "VALID";
+//       result.innerText = `${data.status}`;
+//     } else {
+//       document.body.style.background = "red";
+//       // result.innerText = "USED";
+//       result.innerText = `${data.status}`;
+//     }
+//   });
+// }
+
 function onScanSuccess(text) {
   const ticketId = text.split("/").pop();
 

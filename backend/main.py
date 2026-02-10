@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from database import SessionLocal
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -15,8 +16,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class VerifyRequest(BaseModel):
+    ticket_id: str
+    scanner_id: str
+
 @app.post("/verify")
-def verify_ticket(ticket_id: str, scanner_id: str):
+def verify_ticket(request: VerifyRequest):
+    ticket_id = request.ticket_id
+    scanner_id = request.scanner_id
     db = SessionLocal()
 
     query = text("""

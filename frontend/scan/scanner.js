@@ -67,7 +67,11 @@ function onScanSuccess(text) {
 }
 
 function updateStats() {
-  fetch("https://qr-code-brightland.onrender.com/stats")
+  fetch("https://qr-code-brightland.onrender.com/stats",{
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  })
     .then(res => res.json())
     .then(data => {
       document.getElementById("totalCount").innerText = data.total;
@@ -76,8 +80,6 @@ function updateStats() {
     });
 }
 
-setInterval(updateStats, 5000);
-updateStats();
 
 scanNextBtn.addEventListener("click", () => {
   document.body.style.background = "#f4f6f9";
@@ -87,5 +89,37 @@ scanNextBtn.addEventListener("click", () => {
 });
 
 
-html5QrCode = new Html5Qrcode("reader");
-startScanner();
+
+
+async function checkAuth() {
+    if (!token) {
+        window.location.href = "login.html";
+        return false;
+    }
+
+    const response = await fetch("https://qr-code-brightland.onrender.com/stats", {
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    if (!response.ok) {
+        sessionStorage.removeItem("token");
+        window.location.href = "login.html";
+        return false;
+    }
+
+    return true;
+}
+
+async function init() {
+    const authorized = await checkAuth();
+    if (!authorized) return;
+
+    html5QrCode = new Html5Qrcode("reader");
+    startScanner();
+    updateStats();
+    setInterval(updateStats, 5000);
+}
+
+init();

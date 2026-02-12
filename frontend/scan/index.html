@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="style.css"/>
 
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script>
+<!-- <script>
 if (!sessionStorage.getItem("isLoggedIn")) {
   window.location.href = "login.html";
 }
-</script>
+</script> -->
 </head>
 
 <body>
@@ -55,95 +55,3 @@ if (!sessionStorage.getItem("isLoggedIn")) {
 </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html>
-<head>
-  <title>Ticket Scanner</title>
-  <script src="https://unpkg.com/html5-qrcode"></script>
-</head>
-<body>
-<h1>Scan Ticket</h1>
-<div id="reader"></div>
-<h2 id="result"></h2>
-
-<button id="scanNextBtn" style="display:none;">Scan Next</button>
-
-<script>
-const scannerId = "gate-A";
-let html5QrCode;
-let scanning = false;
-
-const result = document.getElementById("result");
-const scanNextBtn = document.getElementById("scanNextBtn");
-
-const qrSize = Math.min(window.innerWidth * 0.8, 500);
-
-function startScanner() {
-  scanning = true;
-
-  html5QrCode.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: qrSize },
-    onScanSuccess
-  );
-}
-
-function stopScanner() {
-  scanning = false;
-  return html5QrCode.stop();
-}
-
-function onScanSuccess(text) {
-  if (!scanning) return;
-
-  const ticketId = text.split("/").pop();
-
-  stopScanner().then(() => {
-
-    fetch("https://qr-code-brightland.onrender.com/verify", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        ticket_id: ticketId,
-        scanner_id: scannerId
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-
-      if (data.status === "valid") {
-        document.body.style.background = "green";
-        result.innerText = "VALID";
-      } else {
-        document.body.style.background = "red";
-        result.innerText = "USED";
-      }
-
-      scanNextBtn.style.display = "block";
-    });
-
-  });
-}
-
-scanNextBtn.addEventListener("click", () => {
-  document.body.style.background = "white";
-  result.innerText = "";
-  scanNextBtn.style.display = "none";
-  startScanner();
-});
-
-html5QrCode = new Html5Qrcode("reader");
-startScanner();
-</script>
-
-</body>
-</html> -->

@@ -2,10 +2,10 @@ import uuid
 from database import engine
 from sqlalchemy import text
 
-EVENT_CODE = "Concert-2024"
+EVENT_CODE = "Concert-2026"
 
 with engine.connect() as conn:
-    for _ in range(3):
+    for _ in range(50):
 
         result = conn.execute(
             text("""

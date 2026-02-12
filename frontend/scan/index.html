@@ -1,4 +1,70 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Brightland Event Scanner</title>
+
+<link rel="stylesheet" href="style.css"/>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+if (!sessionStorage.getItem("isLoggedIn")) {
+  window.location.href = "login.html";
+}
+</script>
+</head>
+
+<body>
+
+<header>
+  <h1>Brightland Concert 2026</h1>
+  <p>Official QR Verification Portal</p>
+</header>
+
+<section class="scanner-section">
+
+  <div class="scanner-card">
+    <div class="stats">
+      <p>Total: <span id="totalCount">0</span></p>
+      <p>Used: <span id="usedCount">0</span></p>
+      <p>Remaining: <span id="remainingCount">0</span></p>
+    </div>
+
+    <div class="scanner-wrapper">
+      <div id="reader"></div>
+      <div class="scan-line"></div>
+    </div>
+
+    <h2 id="result"></h2>
+
+    <button id="scanNextBtn" style="display:none;">
+      Scan Next
+    </button>
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2026 Brightland Corporation</p>
+  <p class="dev">Powered by Edozie Group</p>
+</footer>
+
+<script src="scanner.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Ticket Scanner</title>
@@ -9,71 +75,75 @@
 <div id="reader"></div>
 <h2 id="result"></h2>
 
+<button id="scanNextBtn" style="display:none;">Scan Next</button>
+
 <script>
 const scannerId = "gate-A";
+let html5QrCode;
+let scanning = false;
 
-// function load() {
-//   fetch("https://qr-code-brightland.onrender.com/verify", {
-//     method: "POST",
-//     headers: {"Content-Type": "application/json"},
-//     body: JSON.stringify({
-//       ticket_id: ticketId,
-//       scanner_id: scannerId
-//     })
-//   })
-//   .then(res => res.json())
-//   .then(data => {
-//     if (data.status === "valid") {
-//       document.body.style.background = "green";
-//       // result.innerText = "VALID";
-//       result.innerText = `${data.status}`;
-//     } else {
-//       document.body.style.background = "red";
-//       // result.innerText = "USED";
-//       result.innerText = `${data.status}`;
-//     }
-//   });
-// }
+const result = document.getElementById("result");
+const scanNextBtn = document.getElementById("scanNextBtn");
 
-let lastScannedId = null;
-let lastScanTime = 0;
+const qrSize = Math.min(window.innerWidth * 0.8, 500);
+
+function startScanner() {
+  scanning = true;
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: qrSize },
+    onScanSuccess
+  );
+}
+
+function stopScanner() {
+  scanning = false;
+  return html5QrCode.stop();
+}
 
 function onScanSuccess(text) {
+  if (!scanning) return;
+
   const ticketId = text.split("/").pop();
 
-  const cooldown = 3000;
+  stopScanner().then(() => {
 
-  if (lastScannedId === ticketId && Date.now() - lastScanTime < cooldown) {
-    return;
-  }
-
-  lastScannedId = ticketId;
-  lastScanTime = Date.now();
-
-  fetch("https://qr-code-brightland.onrender.com/verify", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      ticket_id: ticketId,
-      scanner_id: scannerId
+    fetch("https://qr-code-brightland.onrender.com/verify", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        ticket_id: ticketId,
+        scanner_id: scannerId
+      })
     })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.status === "valid") {
-      document.body.style.background = "green";
-      result.innerText = "VALID";
-      // result.innerText = `${data.status}`;
-    } else {
-      document.body.style.background = "red";
-      result.innerText = "USED";
-      // result.innerText = `${data.status}`;
-    }
+    .then(res => res.json())
+    .then(data => {
+
+      if (data.status === "valid") {
+        document.body.style.background = "green";
+        result.innerText = "VALID";
+      } else {
+        document.body.style.background = "red";
+        result.innerText = "USED";
+      }
+
+      scanNextBtn.style.display = "block";
+    });
+
   });
 }
 
-new Html5Qrcode("reader")
-  .start({ facingMode: "environment" }, { fps: 10, qrbox: 450 }, onScanSuccess);
+scanNextBtn.addEventListener("click", () => {
+  document.body.style.background = "white";
+  result.innerText = "";
+  scanNextBtn.style.display = "none";
+  startScanner();
+});
+
+html5QrCode = new Html5Qrcode("reader");
+startScanner();
 </script>
+
 </body>
-</html>
+</html> -->

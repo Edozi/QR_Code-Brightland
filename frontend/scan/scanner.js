@@ -91,8 +91,32 @@ scanNextBtn.addEventListener("click", () => {
 
 
 
+// async function checkAuth() {
+//     if (!token) {
+//         window.location.href = "login.html";
+//         return false;
+//     }
+
+//     const response = await fetch("https://qr-code-brightland.onrender.com/stats", {
+//         headers: {
+//             "Authorization": "Bearer " + token
+//         }
+//     });
+
+//     if (!response.ok) {
+//         sessionStorage.removeItem("token");
+//         window.location.href = "login.html";
+//         return false;
+//     }
+
+//     return true;
+// }
+
 async function checkAuth() {
+    console.log("Token:", token);
+
     if (!token) {
+        console.log("No token found");
         window.location.href = "login.html";
         return false;
     }
@@ -103,12 +127,16 @@ async function checkAuth() {
         }
     });
 
+    console.log("Auth response status:", response.status);
+
     if (!response.ok) {
+        console.log("Auth failed");
         sessionStorage.removeItem("token");
         window.location.href = "login.html";
         return false;
     }
 
+    console.log("Auth success");
     return true;
 }
 

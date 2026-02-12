@@ -86,7 +86,6 @@ def get_current_scanner(
 
 class VerifyRequest(BaseModel):
     ticket_id: str
-    scanner_id: str
 
 ## -- Verify Endpoint --
 @app.post("/verify")

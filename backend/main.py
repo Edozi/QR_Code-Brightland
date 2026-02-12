@@ -94,7 +94,7 @@ def verify_ticket(request: VerifyRequest, scanner_id: str = Depends(get_current_
     db = SessionLocal()
 
     query = text("""
-        UPDATE tickets
+        UPDATE concert_tickets
         SET status = 'used',
             used_at = NOW(),
             scanner_id = :scanner_id
@@ -120,7 +120,7 @@ def verify_ticket(request: VerifyRequest, scanner_id: str = Depends(get_current_
         # Check if ticket exists
         db = SessionLocal()
         exists = db.execute(
-            text("SELECT status, used_at FROM tickets WHERE id = :id"),
+            text("SELECT status, used_at FROM concert_tickets WHERE id = :id"),
             {"id": ticket_id}
         ).fetchone()
         db.close()
@@ -141,11 +141,11 @@ def get_stats(scanner_id: str = Depends(get_current_scanner)):
     db = SessionLocal()
 
     total = db.execute(
-        text("SELECT COUNT(*) FROM tickets")
+        text("SELECT COUNT(*) FROM concert_tickets")
     ).scalar()
 
     used = db.execute(
-        text("SELECT COUNT(*) FROM tickets WHERE status = 'used'")
+        text("SELECT COUNT(*) FROM concert_tickets WHERE status = 'used'")
     ).scalar()
 
     db.close()

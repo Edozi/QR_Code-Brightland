@@ -24,8 +24,10 @@ for ticket in tickets:
     canvas = Image.new("RGB", (400, 500), "white")
     canvas.paste(qr, (0, 0))
 
+
     draw = ImageDraw.Draw(canvas)
-    draw.text((200, 430), public_number, fill="black", anchor="mm")
+    font = ImageFont.truetype("arial.ttf", 40)
+    draw.text((200, 450), public_number, fill="black", font=font, anchor="mm")
 
     canvas.save(f"{OUTPUT_DIR}/{public_number}.png")
 

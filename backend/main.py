@@ -59,7 +59,7 @@ def login(data: LoginRequest):
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://qrcodebrightlandscan.vercel.app"
+        "https://qrcodebrightlandvercel.vercel.app/"
     ],
     allow_methods=["*"],
     allow_headers=["*"],

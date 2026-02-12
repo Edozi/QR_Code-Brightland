@@ -141,7 +141,8 @@ async function checkAuth() {
 }
 
 async function init() {
-    
+    const authorized = await checkAuth();
+    if (!authorized) return;
 
     html5QrCode = new Html5Qrcode("reader");
     startScanner();

@@ -14,7 +14,8 @@ const token = sessionStorage.getItem("token");
 function startScanner() {
   scanning = true;
 
-  const qrSize = Math.min(window.innerWidth * 0.9, 400);
+  // const qrSize = Math.min(window.innerWidth * 0.9, 400);
+  const qrSize = { width: 250, height: 250 };
 
   html5QrCode.start(
     { facingMode: "environment" },

@@ -11,6 +11,16 @@ import os
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://qrcodebrightlandvercel.vercel.app/"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # jwt configuration
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
@@ -55,15 +65,6 @@ def login(data: LoginRequest):
 
     return {"access_token": token}
 
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://qrcodebrightlandvercel.vercel.app/"
-    ],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 ## -- Verification Function dependency --
 def get_current_scanner(

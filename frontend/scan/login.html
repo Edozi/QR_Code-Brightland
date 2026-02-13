@@ -158,12 +158,10 @@ async function login() {
 
     const data = await response.json();
 
-    // If using JWT later:
+    
     sessionStorage.setItem("token", data.access_token);
 
-    // sessionStorage.setItem("isLoggedIn", "true");
-
-    window.location.href = "index.html"; // redirect to scanner page
+    window.location.href = "index.html"; 
 
   } catch (err) {
     error.innerText = "Invalid username or password";

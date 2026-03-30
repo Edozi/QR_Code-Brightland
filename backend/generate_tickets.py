@@ -5,7 +5,7 @@ from sqlalchemy import text
 EVENT_CODE = "Concert-2026"
 
 with engine.connect() as conn:
-    for _ in range(50):
+    for _ in range(400):
 
         result = conn.execute(
             text("""

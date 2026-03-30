@@ -61,6 +61,8 @@ function onScanSuccess(text) {
         errorSound.play();
       }
 
+      updateStats(); //This updates the stats when a scan has been made
+
       scanNextBtn.style.display = "block";
     });
 
@@ -120,7 +122,7 @@ async function init() {
     html5QrCode = new Html5Qrcode("reader");
     startScanner();
     updateStats();
-    setInterval(updateStats, 5000);
+    setInterval(updateStats, 120000); //Increased to reduce the RAM usage of the server
 }
 
 init();
